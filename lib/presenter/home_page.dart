@@ -1,7 +1,8 @@
-import 'package:analytics_example/core/di/base_injection.dart';
 import 'package:analytics_example/infrastructure/analytics/app_analytics.dart';
 import 'package:analytics_example/presenter/second_page.dart';
 import 'package:flutter/material.dart';
+
+import '../infrastructure/lifecycle_handler/lifecycle_handler.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key, required this.title}) : super(key: key);
@@ -13,7 +14,37 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  LifeCycleHandler? _lifecycleObserver;
   int _counter = 0;
+
+  @override
+  void initState() {
+    initPageObserver();
+    super.initState();
+    if (_lifecycleObserver != null) {
+      WidgetsBinding.instance!.addObserver(_lifecycleObserver!);
+    }
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    if (_lifecycleObserver != null) {
+      WidgetsBinding.instance!.removeObserver(_lifecycleObserver!);
+    }
+  }
+
+  void initPageObserver() {
+    _lifecycleObserver = LifeCycleHandler(onPauseCallback: onPauseCallback);
+  }
+
+  //Envia o evento para o firebase
+  void onPauseCallback() {
+    if (_lifecycleObserver != null) {
+      _lifecycleObserver!.analytics
+          .logLifeCycleEvent(event: "O estado de tela mudou");
+    }
+  }
 
   void _incrementCounter() {
     setState(() {
@@ -21,7 +52,7 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
-  final _analytics = BaseInjection.getIt<AppAnalytics>();
+  final _analytics = AppAnalytics.instance;
 
   @override
   Widget build(BuildContext context) {

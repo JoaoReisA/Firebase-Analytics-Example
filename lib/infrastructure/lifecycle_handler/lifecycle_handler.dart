@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 
-import '../../core/di/base_injection.dart';
 import '../analytics/app_analytics.dart';
 
 class LifeCycleHandler extends WidgetsBindingObserver {
   LifeCycleHandler({this.onPauseCallback});
 
   VoidCallback? onPauseCallback;
-  final AppAnalytics analytics = BaseInjection.getIt<AppAnalytics>();
+  final AppAnalytics analytics = AppAnalytics.instance;
 
   AppLifecycleState _previousState = AppLifecycleState.inactive;
 

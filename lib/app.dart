@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'core/di/base_injection.dart';
 import 'infrastructure/analytics/app_analytics.dart';
 import 'presenter/home_page.dart';
 
@@ -12,7 +11,7 @@ class App extends StatefulWidget {
 }
 
 class _AppState extends State<App> {
-  final AppAnalytics _analytics = BaseInjection.getIt<AppAnalytics>();
+  final AppAnalytics _analytics = AppAnalytics.instance;
 
   List<NavigatorObserver> _observers = [];
 
