@@ -16,7 +16,7 @@ class _SecondPageState extends State<SecondPage> {
     initPageObserver();
     super.initState();
     if (_lifecycleObserver != null) {
-      WidgetsBinding.instance?.addObserver(_lifecycleObserver!);
+      WidgetsBinding.instance.addObserver(_lifecycleObserver!);
     }
   }
 
@@ -24,7 +24,7 @@ class _SecondPageState extends State<SecondPage> {
   void dispose() {
     super.dispose();
     if (_lifecycleObserver != null) {
-      WidgetsBinding.instance?.removeObserver(_lifecycleObserver!);
+      WidgetsBinding.instance.removeObserver(_lifecycleObserver!);
     }
   }
 
